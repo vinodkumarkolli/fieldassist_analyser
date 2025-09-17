@@ -1,2 +1,4 @@
 sales_analysis_env/*
 data/*
+.env/*
+src/__pycache__/*
