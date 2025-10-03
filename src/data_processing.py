@@ -45,7 +45,8 @@ def initialize_database():
             l2_position_name VARCHAR,
             l3_position_name VARCHAR,
             beat VARCHAR,
-            outlet_creation_date DATE
+            outlet_creation_date DATE,
+            is_blocked VARCHAR
         )
     """)
     
@@ -76,10 +77,17 @@ def initialize_database():
         )
     """)
     
-    # Add outlet_creation_date column if it doesn't exist
+    # Add outlet_creation_date and is_blocked columns if they don't exist
     try:
         con.execute(f"ALTER TABLE {OUTLETS_TABLE} ADD COLUMN outlet_creation_date DATE")
         print("Added outlet_creation_date column to outlets table")
+    except Exception as e:
+        # Column might already exist, which is fine
+        pass
+        
+    try:
+        con.execute(f"ALTER TABLE {OUTLETS_TABLE} ADD COLUMN is_blocked VARCHAR")
+        print("Added is_blocked column to outlets table")
     except Exception as e:
         # Column might already exist, which is fine
         pass
@@ -125,6 +133,7 @@ def load_outlets_data():
         mapped_df['l3_position_name'] = None  # This will be updated later
         mapped_df['beat'] = df['Beats'] if 'Beats' in df.columns else None
         mapped_df['outlet_creation_date'] = df['Outlet Creation Date'] if 'Outlet Creation Date' in df.columns else None
+        mapped_df['is_blocked'] = df['IsBlocked'] if 'IsBlocked' in df.columns else None
         
         # Remove rows with null outlet_id
         mapped_df = mapped_df.dropna(subset=['outlet_id'])
