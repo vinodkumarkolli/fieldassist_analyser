@@ -16,7 +16,7 @@ def initialize_filters():
     # Date range filter
     if "date_range" not in st.session_state:
         st.session_state.date_range = "All Months"
-    date_range_options = ["All Months", "01-25", "02-25", "03-25", "04-25", "05-25", "06-25", "07-25", "08-25", "09-25"]
+    date_range_options = ["All Months", "01-25", "02-25", "03-25", "04-25", "05-25", "06-25", "07-25", "08-25", "09-25","10-25"]
     date_range = st.sidebar.selectbox(
         "Select Month Range",
         date_range_options,

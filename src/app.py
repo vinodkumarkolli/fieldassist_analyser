@@ -110,7 +110,7 @@ try:
     col4.metric("Ordering Outlets", active_outlets)
 
     # Filtered Active Outlets (where isBlocked = "No")
-    filtered_active_outlets_query = """
+    non_blocked_outlets_query = """
         SELECT COUNT(DISTINCT o.outlet_id)
         FROM outlets o
         WHERE o.is_blocked = 'No'
@@ -132,10 +132,10 @@ try:
         filtered_active_conditions.append(f"o.beat = '{st.session_state.selected_beat}'")
     
     if filtered_active_conditions:
-        filtered_active_outlets_query += " AND " + " AND ".join(filtered_active_conditions)
+        non_blocked_outlets_query += " AND " + " AND ".join(filtered_active_conditions)
     
-    filtered_active_outlets = con.execute(filtered_active_outlets_query).fetchone()[0] or 0
-    col8.metric("Non-Blocked Outlets", filtered_active_outlets)
+    non_blocked_outlets = con.execute(non_blocked_outlets_query).fetchone()[0] or 0
+    col8.metric("Non-Blocked Outlets", non_blocked_outlets)
 
     # Reordering outlets (with >1 order)
     reordering_query = """
